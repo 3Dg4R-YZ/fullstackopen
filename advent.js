@@ -1,27 +1,17 @@
-function drawGift(size, symbol) {
-	if (size === 1) return '#\n'
-	let wall = '#'.padEnd(size - 1, symbol) + '#',
-		column = ''.padEnd(size - 1, '#'),
-		paths = [],
-		result = []
-
-	paths.push(column)
-
-	for (let i = 0; i < size - 2; i++) {
-		paths.push(wall + ''.padEnd(i, symbol))
+function createChristmasTree(ornaments, height) {
+	let c = 0
+	let result = ''
+	for (let i = 1; i <= height; i++) {
+		let temp = []
+		for (let j = 0; j < i; j++) {
+			temp.push(ornaments[c])
+			c = (c + 1) % ornaments.length
+		}
+		temp = temp.join(' ')
+		result += temp.padStart(i + height - 1) + '\n'
 	}
-	paths.push(column + wall.substring(0, wall.length - 1))
-
-	for (let i = 0; i < size; i++) {
-		result.push(paths[i].padStart(2 * size - 2, ' '))
-	}
-	for (let i = size - 2; i >= 0; i--) {
-		result.push(paths[i])
-	}
-	result.push('')
-
-	return result.join('#\n')
+	result += ''.padStart(height - 1, ' ') + '|\n'
+	return result
 }
 
-const result = drawGift(4, '+')
-console.log(result) // -> 2
+console.log(createChristmasTree('123', 4))

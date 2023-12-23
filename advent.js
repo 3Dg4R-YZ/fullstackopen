@@ -1,17 +1,25 @@
-function createChristmasTree(ornaments, height) {
-	let c = 0
-	let result = ''
-	for (let i = 1; i <= height; i++) {
-		let temp = []
-		for (let j = 0; j < i; j++) {
-			temp.push(ornaments[c])
-			c = (c + 1) % ornaments.length
-		}
-		temp = temp.join(' ')
-		result += temp.padStart(i + height - 1) + '\n'
+function checkIsValidCopy(original, copy) {
+	const min = /[a-z]/
+	const may = /[A-Z]/
+	const char = ['#', '+', ':', '.', ' ']
+
+	const rev = (el, el2) => {
+		if (may.test(el)) return !(el === el2.toUpperCase() || char.includes(el2))
+		else if (min.test(el)) return !(el === el2 || char.includes(el2))
+		else if (char.includes(el))
+			return !(
+				char.findIndex((inx) => el === inx) <=
+				char.findIndex((inx) => el2 === inx)
+			)
+		else return false
 	}
-	result += ''.padStart(height - 1, ' ') + '|\n'
-	return result
+
+	for (let i = 0; i < original.length; i++) {
+		const el = original[i]
+		const el2 = copy[i]
+		if (rev(el, el2)) return false
+	}
+	return true
 }
 
-console.log(createChristmasTree('123', 4))
+console.log(checkIsValidCopy('Santa Claus', 's#+:. c:. s'))
